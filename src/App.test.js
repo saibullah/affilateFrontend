@@ -1,8 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders the admin product manager interface', () => {
+  localStorage.setItem('token', 'admin-token');
+  localStorage.setItem('role', 'admin');
+  window.history.pushState({}, '', '/admin-dashboard');
+
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  expect(screen.getByText(/product manager/i)).toBeInTheDocument();
 });
