@@ -7,11 +7,12 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await api.get("/api/products");
+        const response = await api.get("/products");
 
         setProducts(response.data);
       } catch (error) {
@@ -40,7 +41,16 @@ function Home() {
     <>
       <Navbar />
 
-
+{role === "admin" && (
+  <div className="container mt-3 text-end">
+    <button
+      className="btn btn-dark"
+      onClick={() => window.location.href = "/admin-dashboard"}
+    >
+      Admin Dashboard
+    </button>
+  </div>
+)}
       {/* Categories */}
       <section className="py-4">
         <div className="container">
@@ -92,7 +102,7 @@ function Home() {
 
               {filteredProducts.map((product) => (
                 <div
-                  className="col-md-6 col-lg-4"
+                  className="col-6 col-md-6 col-lg-4 col-xl-3"
                   key={product._id}
                 >
                   <ProductCard product={product} />

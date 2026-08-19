@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
+import './style.css'
 
 function Login() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ function Login() {
               {/* LEFT SIDE */}
               <div className="login-left d-none d-md-flex">
                 <div className="login-content">
-                  <h1>PICKORA</h1>
+                  <h1>KRYPOS</h1>
 
                   <h2>
                     Discover.

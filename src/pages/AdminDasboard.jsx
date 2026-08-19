@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
+import { Link } from "react-router-dom";
 
 const emptyForm = {
   name: "",
@@ -113,7 +114,13 @@ function AdminDasboard() {
           <h2 className="fw-bold mb-0">Product Manager</h2>
         </div>
       </div>
-
+<div>
+ <Link to={'/'}>
+ <button className="btn-lg btn">
+  Home
+ </button>
+ </Link>
+</div>
       <div className="row g-4">
         <div className="col-lg-4">
           <form onSubmit={handleSubmit} className="card shadow-sm border-0 p-4">

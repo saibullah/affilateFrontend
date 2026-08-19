@@ -14,7 +14,7 @@ function ProductDetail() {
     const fetchProduct = async () => {
       try {
         // Get all products
-        const response = await api.get("/api/products");
+        const response = await api.get("/products");
 
         const products = response.data;
 

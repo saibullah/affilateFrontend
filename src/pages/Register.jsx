@@ -1,117 +1,233 @@
-// import React from 'react'
-// import '../styles/Register.css'
-// import { Link, useNavigate } from 'react-router-dom'
-// import { useState } from 'react'
-// import api from '../api/api'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api";
+import './style.css'
 
-// function Register() {
-//   const navigate = useNavigate()
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     email: "",
-//     password: ""
-//   })
+function Register() {
+  const navigate = useNavigate();
 
-//   const handleChange = (e) => {
-//     setFormData({
-//       ...formData,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const response = await api.post("/auth/register", {
-//         name: formData.name,
-//         email: formData.email,
-//         password: formData.password,
-//       });
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-//       alert(response.data.message);
+  const [loading, setLoading] = useState(false);
 
-//       navigate("/login");
-//     } catch (error) {
-//       alert(error.response?.data?.message || "Registration Failed");
-//     }
-//   };
-//   return (
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-//     <div className="register-page">
-//       <div className="container">
-//         <div className="row justify-content-center align-items-center min-vh-100">
-//           <div className="col-md-8 col-lg-6 col-xl-5">
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-//             <div className="register-card shadow-lg">
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
 
-//               <div className="text-center mb-4">
-//                 <h2 className="fw-bold">Create Account</h2>
-//                 <p className="text-muted">
-//                   Join us and start your journey today.
-//                 </p>
-//               </div>
+    if (formData.password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
 
-//               <form onSubmit={handleSubmit}>
+    try {
+      setLoading(true);
 
-//                 <div className="mb-3">
-//                   <label className="form-label fw-semibold">
-//                     Full Name
-//                   </label>
-//                   <input
-//                     type="text"
-//                     name='name'
-//                     className="form-control custom-input"
-//                     placeholder="Enter your full name"
-//                     value={formData.name}
-//                     onChange={handleChange}
-//                   />
-//                 </div>
+      const response = await api.post("/admin/register", {
+        username: formData.username,
+        password: formData.password,
+      });
 
-//                 <div className="mb-3">
-//                   <label className="form-label fw-semibold">
-//                     Email
-//                   </label>
-//                   <input
-//                     type="email"
-//                     name='email'
-//                     className="form-control custom-input"
-//                     placeholder="Enter your email"
-//                     value={formData.email}
-//                     onChange={handleChange}
-//                   />
-//                 </div>
+      alert(response.data.message);
 
-//                 <div className="mb-4">
-//                   <label className="form-label fw-semibold">
-//                     Password
-//                   </label>
-//                   <input
-//                     type="password"
-//                     name='password'
-//                     className="form-control custom-input"
-//                     placeholder="Enter your password"
-//                     value={formData.password}
-//                     onChange={handleChange}
-//                   />
-//                 </div>
+      navigate("/login");
 
-//                 <button type='submit' className="btn register-btn w-100">
-//                   Create Account
-//                 </button>
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+        "Registration failed"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-//                 <p className="text-center mt-4 text-muted">
-//                   Already have an account?
-//                   <Link to="/login" className="login-link"> Login</Link>
-//                 </p>
+  return (
+    <div className="register-page">
 
-//               </form>
+      <div className="container">
 
-//             </div>
+        <div className="row min-vh-100 align-items-center justify-content-center">
 
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
+          <div className="col-lg-10">
 
-// export default Register
+            <div className="register-wrapper shadow-lg">
+
+              {/* LEFT SIDE */}
+
+              <div className="register-left d-none d-md-flex">
+
+                <div className="register-content">
+
+                  <h1>KRYPOS</h1>
+
+                  <h2>
+                    Join.
+                    <br />
+                    Discover.
+                    <br />
+                    Explore.
+                  </h2>
+
+                  <p>
+                    Create your account and discover useful
+                    products, deals and recommendations.
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              {/* RIGHT SIDE */}
+
+              <div className="register-right">
+
+                <div className="register-form-container">
+
+                  <div className="text-center mb-4">
+
+                    <h2 className="fw-bold mb-2">
+                      Create Account
+                    </h2>
+
+                    <p className="text-muted">
+                      Join KRYPOS today
+                    </p>
+
+                  </div>
+
+
+                  <form onSubmit={handleSubmit}>
+
+                    {/* USERNAME */}
+
+                    <div className="mb-4">
+
+                      <label className="form-label fw-semibold">
+                        Email
+                      </label>
+
+                      <input
+                        type="email"
+                        className="form-control register-input"
+                        placeholder="Enter your email"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        required
+                      />
+
+                    </div>
+
+
+                    {/* PASSWORD */}
+
+                    <div className="mb-4">
+
+                      <label className="form-label fw-semibold">
+                        Password
+                      </label>
+
+                      <input
+                        type="password"
+                        className="form-control register-input"
+                        placeholder="Create a password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                      />
+
+                    </div>
+
+
+                    {/* CONFIRM PASSWORD */}
+
+                    <div className="mb-4">
+
+                      <label className="form-label fw-semibold">
+                        Confirm Password
+                      </label>
+
+                      <input
+                        type="password"
+                        className="form-control register-input"
+                        placeholder="Confirm your password"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        required
+                      />
+
+                    </div>
+
+
+                    {/* REGISTER BUTTON */}
+
+                    <button
+                      type="submit"
+                      className="btn register-btn w-100"
+                      disabled={loading}
+                    >
+
+                      {loading
+                        ? "Creating Account..."
+                        : "Create Account"}
+
+                    </button>
+
+                  </form>
+
+
+                  <div className="divider">
+
+                    <span>OR</span>
+
+                  </div>
+
+
+                  <p className="text-center text-muted mb-0">
+
+                    Already have an account?
+
+                    <Link
+                      to="/login"
+                      className="login-link"
+                    >
+                      {" "}Login
+                    </Link>
+
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  );
+}
+
+export default Register;

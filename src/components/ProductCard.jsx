@@ -3,43 +3,39 @@ import { Link } from "react-router-dom";
 
 function ProductCard({ product }) {
   return (
-    <div className="card h-100 border-0 shadow-sm">
+    <div className="card h-100 border-0 shadow-sm product-card">
 
       <img
         src={product.image}
-        className="card-img-top p-4"
+        className="card-img-top product-image"
         alt={product.name}
-        style={{
-          height: "220px",
-          objectFit: "contain",
-        }}
       />
 
-      <div className="card-body">
+      <div className="card-body p-3">
 
-        <small className="text-muted">
+        <small className="text-muted category">
           {product.category}
         </small>
 
-        <h5 className="card-title mt-2">
+        <h6 className="card-title mt-2 product-name">
           {product.name}
-        </h5>
+        </h6>
 
-        <p className="text-warning mb-2">
+        <p className="text-warning mb-2 rating">
           ⭐ {product.rating}
         </p>
 
-        <p className="card-text text-muted">
+        <p className="card-text text-muted product-description">
           {product.description}
         </p>
 
-        <h5 className="fw-bold">
+        <h6 className="fw-bold mb-2">
           {product.price}
-        </h5>
+        </h6>
 
         <Link
           to={`/product/${product._id}`}
-          className="btn btn-dark w-100 mt-2"
+          className="btn btn-dark w-100 review-btn"
         >
           Read Review
         </Link>
